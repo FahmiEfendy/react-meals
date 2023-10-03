@@ -38,6 +38,8 @@ const cartReducer = (state, action) => {
       items: [...state.items.filter((item) => item.id !== action.id)],
       totalAmount: state.totalAmount - existingMeal.price,
     };
+  } else if (action.type === "RESET") {
+    return defaultCartState;
   }
 };
 
@@ -58,11 +60,16 @@ const CartContextProvider = (props) => {
     dispatchCart({ type: "REMOVE_ITEM", id });
   };
 
+  const resetHandler = () => {
+    dispatchCart({ type: "RESET" });
+  };
+
   const cartContext = {
     items: cartState.items,
     totalAmount: cartState.totalAmount,
     addItem: addHandler,
     removeItem: removeHandler,
+    resetItem: resetHandler,
   };
 
   return (
